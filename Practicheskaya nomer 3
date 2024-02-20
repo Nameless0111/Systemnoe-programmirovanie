@@ -1,0 +1,26 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    int rows = 3;
+    int columns = 5;
+    double mass [rows][columns];
+    for(int i = 0; i < rows;i++){
+        for(int j = 0;j < columns;j++){
+            cin>>mass[i][j];
+        }
+        
+    }
+    double rowmid[rows];
+    for (int i = 0; i < rows; i++) {
+            double sum = 0;
+            for (int j = 0; j < columns; j++) {
+                sum += mass[i][j];
+            }
+            rowmid[i] = sum / columns;
+        }
+    cout<<"Среднее первой строки: "<<rowmid[0]<<"\nСреднее второй строки: "<<rowmid[1]<<"\nСреднее первой строки: "<<rowmid[2];
+    
+    return 0;
+}
