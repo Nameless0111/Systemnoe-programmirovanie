@@ -7,28 +7,28 @@ class BankAccount {
     friend bool transfer(BankAccount& from, BankAccount& to, double amount);
 
 private:
-    int accountNumber;
+    int accountnumber;
     double balance;
-    double interestRate;
+    double interestrate;
 
 public:
-    BankAccount(int accNum, double bal) {
-        this->accountNumber = accNum;
+    BankAccount(int account, double bal) {
+        this->accountnumber = account;
         this->balance = bal;
-        this->interestRate = 0;
+        this->interestrate = 0;
         cout << "Аккаунт создан.\n";
     }
 
     double deposit(double money) {
         balance += money;
-        cout << "Был внесен депозит на " << accountNumber << " на сумму " << money << " .\n";
+        cout << "На счёт " << accountnumber << " были внесены деньги на сумму: " << money << " .\n";
         getBalance();
         return balance; }
 
     double withdraw(double money) {
         if ((balance - money) >= 0) { 
             balance -= money;
-            cout << "Были сняты деньги с " << accountNumber << " на сумму " << money << " .\n";
+            cout << "Со счёта " << accountnumber << "были сняты деньги на сумму " << money << " .\n";
             getBalance();
             return balance; }
         cout << "Недостатоно средств на аккаунте.\n";
@@ -36,22 +36,21 @@ public:
     }
 
     double getBalance() {
-        cout << "Текущий баланс: " << balance << "\n";
         return balance; }
 
     double getInterest() {
-        double interest = balance * interestRate * (1.0/12);
-        cout << "Процент на " << accountNumber << " равны " << interest << " .\n";
-        return balance * interestRate * (1 / 12); }
+        double interest = balance * interestrate * (1.0/12);
+        cout << "Проценты на счёте" << accountnumber << " равны " << interest << " .\n";
+        return balance * interestrate * (1.0 / 12); }
 
-    double setInterestRate(double interRt) {
-        cout << "Была установлена новая ставка на " << accountNumber << " в размере " << interRt << " .\n";
-        interestRate = interRt;
-        return interestRate;
+    double setInterestRate(double interR) {
+        cout << "Была установлена новая ставка на " << accountnumber << " в размере " << interR << " .\n";
+        interestrate = interR;
+        return interestrate;
     }
     int getAccountNumber() {
-        cout << "Аккаунт номер: " << accountNumber << "\n";
-        return accountNumber; }
+        cout << "Аккаунт номер: " << accountnumber << "\n";
+        return accountnumber; }
 };
 bool transfer(BankAccount& from, BankAccount& to, double amount)
 {
@@ -60,3 +59,78 @@ bool transfer(BankAccount& from, BankAccount& to, double amount)
 }
 int main() {
     setlocale(LC_ALL, "Russian");
+
+    BankAccount account(383728, 2948.5);
+    BankAccount account1(328623, 3473.6);
+    int v;
+    double amount;
+    double newInterestRate;
+
+    do {
+        cout << "Выберите действие:" << endl;
+        cout << "1. Внести" << endl;
+        cout << "2. Снять" << endl;
+        cout << "3. Перевод" << endl;
+        cout << "4. Проверить баланс" << endl;
+        cout << "5. Установить процентную ставку" << endl;
+        cout << "6. Установить процентную ставку" << endl;
+        cout << "7. Рассчитать проценты" << endl;
+        cout << "8. Выход" << endl;
+        cin >> v;
+
+        switch (v) {
+        case 1:
+            cout << "Введите сумму для внесения: ";
+            cin >> amount;
+            account.deposit(amount);
+            break;
+        case 2:
+            cout << "Введите сумму для снятия: ";
+            cin >> amount;
+            account1.withdraw(amount);
+            break;
+        case 3:
+            int num1;
+            int num2;
+            cout << "Введите сумму для перевода: ";
+            cin >> amount;
+            cout << "Номер счета для списания: ";
+            cin >> num1;
+            cout << "Номер счета для пополнения: ";
+            cin >> num2;
+            if (num1 == account.getAccountNumber()) {
+                transfer(account, account1, amount);
+             if (num2 == account1.getAccountNumber()) {
+                transfer(account, account1, amount);
+            }
+            }
+            else {
+                cout << "Один или оба счета не найдены." << endl;
+            }
+            break;
+        case 4:
+            cout << "Баланс на счетах:\n" << account.getBalance()<<"\n"<< account1.getBalance() << endl;
+            break;
+        case 5:
+            cout << "Введите новую процентную ставку аккаунт 1: ";
+            cin >> newInterestRate;
+            account.setInterestRate(newInterestRate);
+            break;
+        case 6:
+            cout << "Введите новую процентную ставку аккаунт 2: ";
+            cin >> newInterestRate;
+            account1.setInterestRate(newInterestRate);
+            break;
+        case 7:
+            cout << "Проценты на счете 1 и 2 соответственно:\n" << account.getInterest()<<"\n"<< account1.getInterest()<< endl;
+            break;
+        case 8:
+            cout << "Завершение программы." << endl;
+            break;
+        default:
+            cout << "Неверный выбор. Попробуйте снова." << endl;
+        }
+    } while (v != 8);
+
+    return 0;
+}
