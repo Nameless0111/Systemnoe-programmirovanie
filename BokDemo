@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+class Book {
+public:
+    string title;
+    string author;
+    string genre;
+    string description;
+
+    Book(string title, string author, string genre, string description) {
+        this->title = title;
+        this->author = author;
+        this->genre = genre;
+        this->description = description;
+    }
+};
+
+class LibraryCatalog {
+public:
+    vector<Book> books;
+
+    void addBook(Book book) {
+        books.push_back(book);
+    }
+
+    vector<Book> searchBooks(string query) {
+        vector<Book> results;
+
+        for (Book book : books) {
+            if (book.title.find(query) != string::npos ||
+                book.author.find(query) != string::npos ||
+                book.genre.find(query) != string::npos ||
+                book.description.find(query) != string::npos) {
+                results.push_back(book);
+            }
+        }
+
+        return results;
+    }
+
+    void printBookInfo(Book book) {
+        cout << "Название: " << book.title << endl;
+        cout << "Автор: " << book.author << endl;
+        cout << "Жанр: " << book.genre << endl;
+        cout << "Описание: " << book.description << endl;
+    }
+
+    void reserveBook(Book book) {
+      
+    }
+
+    vector<Book> getReservedBooks() {
+       
+    }
+
+    void cancelReservation(Book book) {
+      
+    }
+};
+
+int main() {
+    LibraryCatalog catalog;
+
+
+    catalog.addBook(Book("Война и мир", "Лев Толстой", "Исторический роман", "Эпическое произведение о наполеоновских войнах"));
+    catalog.addBook(Book("Преступление и наказание", "Федор Достоевский", "Психологический роман", "Роман о студенте, совершившем убийство"));
+    catalog.addBook(Book("Мастер и Маргарита", "Михаил Булгаков", "Фантастический роман", "Роман о дьяволе, посетившем Москву"));
+
+   
+    string query = "война";
+    vector<Book> results = catalog.searchBooks(query);
+
+    
+    for (Book book : results) {
+        catalog.printBookInfo(book);
+        cout << endl;
+    }
+
+    return 0;
+}
